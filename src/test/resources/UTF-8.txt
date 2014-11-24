@@ -1,0 +1,4 @@
+这是汉字
+this is English
+
+blank line  空行
