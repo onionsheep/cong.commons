@@ -196,13 +196,13 @@ public class WebUtil {
    * 默认页码1，默认页码大小10<br/>
    *
    * @param req HTTP请求
-   * @return Pair<页码，页大小>
+   * @return PageParam<页码，页大小>
    */
-  public static Pair<Integer, Integer> getPageParam(final HttpServletRequest req) {
+  public static PageParam getPageParam(final HttpServletRequest req) {
     return getPageParam(req, 10);
   }
 
-  public static Pair<Integer, Integer> getPageParam(final HttpServletRequest req, int defaultPageSize) {
+  public static PageParam getPageParam(final HttpServletRequest req, int defaultPageSize) {
     Integer page = WebUtil.getParameter(req, Integer.class, "p");
     Integer pageSize = WebUtil.getParameter(req, Integer.class, "ps");
     if (page == null || page < 1) {
@@ -211,6 +211,6 @@ public class WebUtil {
     if (pageSize == null || pageSize < 1) {
       pageSize = defaultPageSize;
     }
-    return new Pair<Integer, Integer>(page, pageSize);
+    return new PageParam(page, pageSize);
   }
 }

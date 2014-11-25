@@ -23,7 +23,7 @@
 
   <properties>
     <project-encoding>UTF-8</project-encoding>
-    <java-version>1.6</java-version>
+    <java-version>1.7</java-version>
     <jetty-version>9.2.5.v20141112</jetty-version>
     <!--<jetty-version>8.1.15.v20140411</jetty-version>-->
     <!--<jetty-version>8.1.14.v20131031</jetty-version>-->
@@ -109,6 +109,13 @@
       <version>${commons-fileupload-version}</version>
     </dependency>
 
+    <!--jetty-->
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>${jetty-version}</version>
+    </dependency>
+
 
     <!-- tomcat 依赖ejc -->
     <dependency>
@@ -119,227 +126,213 @@
     </dependency>
 
     <!-- tomcat7 -->
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-catalina</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-servlet-api</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-jdbc</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-coyote</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-jasper</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-juli</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-jasper-el</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-jsp-api</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-util</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-api</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-dbcp</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-catalina-ha</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-el-api</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-tribes</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-annotations-api</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
 
-    <!--tomcat 的二进制发行-->
+    <!--tomcat 的二进制发行, 不需要-->
+    <!--<dependency>-->
+    <!--<groupId>org.apache.tomcat</groupId>-->
+    <!--<artifactId>tomcat</artifactId>-->
+    <!--<version>${tomcat-version}</version>-->
+    <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+
+
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-catalina</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-servlet-api</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-jdbc</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-coyote</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-jasper</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-juli</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-jasper-el</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-jsp-api</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-util</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-api</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-dbcp</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-catalina-ha</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-el-api</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-tribes</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-annotations-api</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat7-websocket</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-websocket-api</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-catalina-ant</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-catalina-ws</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-catalina-jmx-remote</artifactId>
+    <version>${tomcat-version}</version>
+    <scope>provided</scope>
+    </dependency>
+    <!-- tomcat7 end -->
+
+
+    <!-- tomcat6 -->
     <!--<dependency>-->
       <!--<groupId>org.apache.tomcat</groupId>-->
-      <!--<artifactId>tomcat</artifactId>-->
+      <!--<artifactId>annotations-api</artifactId>-->
+      <!--<version>${tomcat-version}</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.tomcat</groupId>-->
+      <!--<artifactId>catalina-ant</artifactId>-->
+      <!--<version>${tomcat-version}</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.tomcat</groupId>-->
+      <!--<artifactId>catalina-ha</artifactId>-->
+      <!--<version>${tomcat-version}</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.tomcat</groupId>-->
+      <!--<artifactId>tribes</artifactId>-->
+      <!--<version>${tomcat-version}</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.tomcat</groupId>-->
+      <!--<artifactId>catalina</artifactId>-->
+      <!--<version>${tomcat-version}</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.tomcat</groupId>-->
+      <!--<artifactId>el-api</artifactId>-->
+      <!--<version>${tomcat-version}</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.tomcat</groupId>-->
+      <!--<artifactId>jasper-el</artifactId>-->
+      <!--<version>${tomcat-version}</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.tomcat</groupId>-->
+      <!--<artifactId>jasper</artifactId>-->
+      <!--<version>${tomcat-version}</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.tomcat</groupId>-->
+      <!--<artifactId>jsp-api</artifactId>-->
+      <!--<version>${tomcat-version}</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.tomcat</groupId>-->
+      <!--<artifactId>servlet-api</artifactId>-->
+      <!--<version>${tomcat-version}</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.tomcat</groupId>-->
+      <!--<artifactId>coyote</artifactId>-->
+      <!--<version>${tomcat-version}</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.tomcat</groupId>-->
+      <!--<artifactId>dbcp</artifactId>-->
       <!--<version>${tomcat-version}</version>-->
       <!--<scope>provided</scope>-->
     <!--</dependency>-->
 
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat7-websocket</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-websocket-api</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-catalina-ant</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-catalina-ws</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-catalina-jmx-remote</artifactId>
-      <version>${tomcat-version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <!-- tomcat7 end -->
-    <!-- tomcat6 -->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>annotations-api</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>catalina-ant</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>catalina-ha</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>tribes</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>catalina</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>el-api</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>jasper-el</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>jasper</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>jsp-api</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>servlet-api</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>coyote</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>dbcp</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>tomcat-i18n-es</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>tomcat-i18n-fr</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.apache.tomcat</groupId>-->
-    <!--<artifactId>tomcat-i18n-ja</artifactId>-->
-    <!--<version>${tomcat-version}</version>-->
-    <!--<scope>provided</scope>-->
-    <!--</dependency>-->
     <!--  tomcat6 end -->
 
 
@@ -367,8 +360,10 @@
         <artifactId>maven-war-plugin</artifactId>
         <version>2.5</version>
         <configuration>
-          <attachClasses>true</attachClasses><!-- 把class打包jar作为附件 -->
-          <archiveClasses>true</archiveClasses><!-- 把class打包jar -->
+          <attachClasses>true</attachClasses>
+          <!-- 把class打包jar作为附件 -->
+          <archiveClasses>true</archiveClasses>
+          <!-- 把class打包jar -->
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>

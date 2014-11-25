@@ -9,10 +9,8 @@
 		</encoder>
 	</appender>
 
-	<root level="debug">
+	<root level="info">
 		<appender-ref ref="STDOUT" />
 	</root>
-	<logger name="cong.commons.test" level="debug">
-
-	</logger>
+	<logger name="cong" level="DEBUG" />
 </configuration>

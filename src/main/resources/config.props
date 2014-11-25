@@ -1,0 +1,10 @@
+[db]
+driver=com.mysql.jdbc.Driver
+url=jdbc\:mysql\://192.168.11.102\:3306/yuyanzhexue?useUnicode=true&characterEncoding=UTF8
+username=root
+password=newpassword
+[adm]
+prefix=/adm
+mainPage=/adm
+loginPage=/adm/login.jsp
+exceptionPattern=(^/img/.*)|(^/css/.*)|(^/js/.*)|(^/ueditor/.*)
