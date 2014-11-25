@@ -1,9 +1,9 @@
 package cong.commons.test.math;
 
+import cong.common.math.MathUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
-
-import cong.commons.math.MathUtils;
 
 public class TestMathUtils {
 

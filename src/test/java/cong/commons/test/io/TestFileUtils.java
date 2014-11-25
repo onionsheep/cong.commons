@@ -1,8 +1,8 @@
 package cong.commons.test.io;
 
-import java.util.ArrayList;
+import cong.common.io.FileUtils;
 
-import cong.commons.io.FileUtils;
+import java.util.ArrayList;
 
 public class TestFileUtils {
 

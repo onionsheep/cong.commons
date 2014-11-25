@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title></title>
+
+  <!--[if lt IE 9]>
+  <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+  <script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+  <style>
+    #preview {
+      overflow: scroll;
+    }
+  </style>
+
+</head>
+<body>
+<div class="content">
+  <form role="form">
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon">地址</div>
+        <input class="form-control" type="text" id="path">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon">宽度</div>
+        <input class="form-control" id="width" type="text">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon">高度</div>
+        <input class="form-control" id="height" type="text">
+      </div>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary form-control" id="insert">插入</button>
+    </div>
+  </form>
+</div>
+<!--页面中一定要引入internal.js为了能直接使用当前打开dialog的实例变量-->
+<!--internal.js默认是放到dialogs目录下的-->
+<script type="text/javascript" src="../../ueditor/dialogs/internal.js"></script>
+<script>
+  //可以直接使用以下全局变量
+  //当前打开dialog的实例变量
+  //alert('editor: '+editor);
+  //一些常用工具
+  //alert('domUtils: '+domUtils);
+  //alert('utils: '+utils);
+  //alert('browser: '+browser);
+  document.getElementById("insert").onclick = function () {
+    var swf = {};
+    swf.path = document.getElementById("path").value;
+    swf.width = document.getElementById("width").value || 680;
+    swf.height = document.getElementById("height").value || 500;
+
+    swf.code =
+    '<object type="application/x-shockwave-flash" data="' +swf.path+ '" width="' +swf.width+'" height="' +swf.height+ '">'
+    +'<param name="wmode" value="transparent">'
+    +'<param name="movie" value="' +swf.path+ '" width="' +swf.width+'" height="' +swf.height+ '">'
+    +'<embed src="' + swf.path + '" width="' +swf.width+'" height="' +swf.height+ '" border="0" align="center" wmode="transparent">'
+    +'</object>';
+
+
+    editor.execCommand('insertHtml', swf.code);
+    return false;
+  }
+</script>
+</body>
+</html>

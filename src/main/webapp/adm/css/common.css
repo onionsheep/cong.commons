@@ -1,0 +1,10 @@
+/* line 3, ../../../resources/sass/scss/adm/css/common.scss */
+.navbar-brand {
+  font-weight: bold;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
+}
+
+/* line 11, ../../../resources/sass/scss/adm/css/common.scss */
+.table-hover tbody tr:hover td {
+  border-bottom-color: #428bca;
+}
