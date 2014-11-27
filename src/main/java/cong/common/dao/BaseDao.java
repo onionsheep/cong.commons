@@ -285,12 +285,12 @@ public class BaseDao {
    * @param params
    * @return 对象列表，MapList
    */
-  public ArrayList<Map<String, Object>> queryMapListBySQL(String sql, Object... params) {
+  public ArrayList<HashMap<String, Object>> queryMapListBySQL(String sql, Object... params) {
     final Pair<Connection, ResultSet> connectionResultSetPair = executeQuery(sql, params);
-    ArrayList<Map<String, Object>> mapList = DBUtil.getMapListFromResultSet(connectionResultSetPair.getV2());
+    ArrayList<HashMap<String, Object>> mapList = DBUtil.getMapListFromResultSet(connectionResultSetPair.getV2());
     closeResultAndConnection(connectionResultSetPair.getV2(), connectionResultSetPair.getV1());
     if (mapList == null) {
-      mapList = new ArrayList<Map<String, Object>>();
+      mapList = new ArrayList<HashMap<String, Object>>();
     }
     return mapList;
   }
@@ -303,7 +303,7 @@ public class BaseDao {
    * @return 单个对象 Map
    */
   public Map<String, Object> queryOneMapBySQL(String sql, Object... params) {
-    final ArrayList<Map<String, Object>> maps = queryMapListBySQL(sql, params);
+    final ArrayList<HashMap<String, Object>> maps = queryMapListBySQL(sql, params);
     if (maps.size() > 0) {
       return maps.get(0);
     } else {

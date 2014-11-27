@@ -16,7 +16,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -134,8 +133,8 @@ public class DBUtil {
    * @return
    * @throws SQLException
    */
-  public static ArrayList<Map<String, Object>> getMapListFromResultSet(ResultSet resultSet) {
-    ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+  public static ArrayList<HashMap<String, Object>> getMapListFromResultSet(ResultSet resultSet) {
+    ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
     try {
       ResultSetMetaData metaData = resultSet.getMetaData();
       int columnCount = metaData.getColumnCount();
