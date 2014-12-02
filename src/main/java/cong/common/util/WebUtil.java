@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,13 +22,51 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author cong 刘聪 onion_sheep@163.com|onionsheep@gmail.com
  */
 public class WebUtil {
 
+
   private static final Logger LG = LoggerFactory.getLogger(WebUtil.class);
+
+  public static final String PARAM_SESSION_NAME =  "_param_storage";
+
+  public static <T> void saveParameterInSession(final HttpServletRequest req, final String name, final T t){
+    if(StringUtil.isNotBlank(name)){
+      final HttpSession session = req.getSession();
+      ConcurrentHashMap<String, Object> param = (ConcurrentHashMap<String, Object>)session.getAttribute(PARAM_SESSION_NAME);
+      if(param == null){
+        param = new ConcurrentHashMap<>();
+        session.setAttribute(PARAM_SESSION_NAME, param);
+      }
+      if(t == null){
+        param.remove(name);
+      }else{
+        param.put(name, t);
+      }
+    }
+  }
+
+  public static void removeParameterFromSession(final HttpServletRequest req, final String name){
+    saveParameterInSession(req, name, null);
+  }
+
+  public static void clearParametersInSession(final HttpServletRequest req){
+    req.getSession().setAttribute(PARAM_SESSION_NAME, null);
+  }
+
+  public static <T> T getParameterFromSession(final HttpServletRequest req, final Class<T> clazz, final String name){
+    T t = null;
+    final HttpSession session = req.getSession();
+    ConcurrentHashMap<String, Object> param = (ConcurrentHashMap<String, Object>)session.getAttribute(PARAM_SESSION_NAME);
+    if(param != null && StringUtil.isNotBlank(name)){
+      t = (T)param.get(name);
+    }
+    return t;
+  }
 
 
   /**
@@ -61,15 +100,13 @@ public class WebUtil {
    */
   public static <T> T getParameter(final HttpServletRequest req, final Class<T> clazz, final String name) {
     T t = null;
+
     String paramString = req.getParameter(name);
     if (StringUtil.isBlank(paramString)) {
       if(Boolean.class.equals(clazz)){
         t = TypeConverterManager.convertType(false, clazz);
       }
-      return t;
-    }
-
-    if (clazz.equals(Date.class) && paramString.indexOf('T') == 10) {
+    }else if (clazz.equals(Date.class) && paramString.indexOf('T') == 10) {
       JDateTime jDateTime = new JDateTime();
       jDateTime.parse(paramString, "YYYY-MM-DDThh:mm");
       t = clazz.cast(jDateTime.convertToDate());
@@ -125,7 +162,6 @@ public class WebUtil {
           }
         }
       }
-
     }
     return t;
   }
@@ -203,8 +239,8 @@ public class WebUtil {
   }
 
   public static PageParam getPageParam(final HttpServletRequest req, int defaultPageSize) {
-    Integer page = WebUtil.getParameter(req, Integer.class, "p");
-    Integer pageSize = WebUtil.getParameter(req, Integer.class, "ps");
+    Integer page = getParameter(req, Integer.class, "p");
+    Integer pageSize = getParameter(req, Integer.class, "ps");
     if (page == null || page < 1) {
       page = 1;
     }
