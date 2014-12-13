@@ -1,6 +1,8 @@
 package cong.common.dao;
 
 
+import cong.common.dao.annotation.Id;
+import cong.common.dao.annotation.Table;
 import cong.common.dao.sqlcache.FieldColumnMapMaker;
 import cong.common.dao.sqlcache.LowerCaseTableNameMaker;
 import cong.common.dao.sqlcache.OriginalNameFieldColumnMapMaker;
@@ -57,15 +59,9 @@ public class SQLCache {
     this.clazz = clazz;
 
     if (StringUtil.isBlank(tableName)) {
-      this.tableName = getTableNameFromClass(clazz);
+      this.tableName = getTableNameFromClass();
     } else {
       this.tableName = tableName;
-    }
-
-    if (StringUtil.isBlank(idColumnName)) {
-      this.idColumnName = defaultIdFieldName;
-    } else {
-      this.idColumnName = idColumnName;
     }
 
     if (fields != null) {
@@ -89,6 +85,12 @@ public class SQLCache {
     this.fieldColumnMap = makeFieldColumnMap(fieldColumnMap);
 
     this.setFieldColumnMap(this.fieldColumnMap);
+
+    if (StringUtil.isBlank(idColumnName)) {
+      this.idColumnName = getIdColumnNameFromClass();
+    } else {
+      this.idColumnName = idColumnName;
+    }
 
     this.sqls = makeSql();
     sqlCacheMap.put(clazz, this);
@@ -164,8 +166,39 @@ public class SQLCache {
     this.idColumnName = idColumnName;
   }
 
-  public String getTableNameFromClass(Class<?> clazz) {
-    return tableNameMaker.getTableNameFromClass(tableNamePrefix, clazz);
+  /**
+   * 获得表名，首先检查是否有 @Table 的注解，有则获取其名称，否则调用tableNameMaker生成表名
+   * @return 数据库表名
+   */
+  public String getTableNameFromClass() {
+    String tableName = null;
+    final Table table = this.clazz.getAnnotation(Table.class);
+    if(table != null){
+      tableName = table.name();
+    }
+    if(StringUtil.isBlank(tableName)){
+      tableName = tableNameMaker.getTableNameFromClass(tableNamePrefix, this.clazz);
+    }
+    return tableName;
+  }
+
+  /**
+   * 获得其Id字段对应数据库中的列名。检查字段中是否有 @Id 注解，发现一个则停止继续查询。
+   * @return 数据库 主键 字段名
+   */
+  public String getIdColumnNameFromClass() {
+    String idColumnName = null;
+    for(Field f : fields){
+      final Id id = f.getAnnotation(Id.class);
+      if(id != null){
+        idColumnName = fieldColumnMap.get(f);
+        break;
+      }
+    }
+    if(StringUtil.isBlank(idColumnName)){
+      idColumnName = defaultIdFieldName;
+    }
+    return idColumnName;
   }
 
   public String getTableName() {

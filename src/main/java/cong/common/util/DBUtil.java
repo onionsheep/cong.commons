@@ -138,14 +138,14 @@ public class DBUtil {
     try {
       ResultSetMetaData metaData = resultSet.getMetaData();
       int columnCount = metaData.getColumnCount();
-      ArrayList<String> columnNameList = new ArrayList<String>();
+      ArrayList<String> columnLabelList = new ArrayList<String>();
       for (int i = 1; i <= columnCount; i++) {
-        String columnName = metaData.getColumnName(i);
-        columnNameList.add(columnName);
+        String columnLabel = metaData.getColumnLabel(i);
+        columnLabelList.add(columnLabel);
       }
       while (resultSet.next()) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        for (String colunmName : columnNameList) {
+        for (String colunmName : columnLabelList) {
           Object obj = resultSet.getObject(colunmName);
           map.put(colunmName, obj);
         }
