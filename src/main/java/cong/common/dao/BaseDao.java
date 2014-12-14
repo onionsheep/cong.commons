@@ -11,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -308,6 +305,41 @@ public class BaseDao {
     } else {
       return new HashMap<String, Object>();
     }
+  }
+
+  /**
+   * 使用SQL语句查询
+   * @param sql
+   * @param params
+   * @return Object数组列表
+   */
+  public ArrayList<Object[]> queryObjectArrayList(String sql, Object... params){
+    final Pair<Connection, ResultSet> connectionResultSetPair = executeQuery(sql, params);
+    ArrayList<Object[]> list = DBUtil.getObjectArrayListFromResultSet(connectionResultSetPair.getV2());
+    closeResultAndConnection(connectionResultSetPair.getV2(), connectionResultSetPair.getV1());
+    if (list == null) {
+      list = new ArrayList<>();
+    }
+    closeResultAndConnection(connectionResultSetPair.getV2(), connectionResultSetPair.getV1());
+    return list;
+  }
+
+  /**
+   * 使用SQL语句查询
+   * @param sql
+   * @param params
+   * @return Object列表
+   */
+  public ArrayList<Object> queryObjectList(String sql, Object... params){
+    ArrayList<Object> list = new ArrayList<>();
+    final ArrayList<Object[]> objectsList = queryObjectArrayList(sql, params);
+    for(int len = objectsList.size(), i = 0; i < len; i++){
+      final Object[] objects = objectsList.get(i);
+      if(objects != null && objects.length > 0){
+        list.add(objects[0]);
+      }
+    }
+    return list;
   }
 
 
