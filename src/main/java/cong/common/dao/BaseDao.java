@@ -17,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -302,7 +301,7 @@ public class BaseDao {
    * @param params
    * @return 单个对象 Map
    */
-  public Map<String, Object> queryOneMapBySQL(String sql, Object... params) {
+  public HashMap<String, Object> queryOneMapBySQL(String sql, Object... params) {
     final ArrayList<HashMap<String, Object>> maps = queryMapListBySQL(sql, params);
     if (maps.size() > 0) {
       return maps.get(0);
