@@ -331,12 +331,27 @@ public class BaseDao {
    * @return Object列表
    */
   public ArrayList<Object> queryObjectList(String sql, Object... params){
-    ArrayList<Object> list = new ArrayList<>();
+    return queryObjectList(Object.class, sql, params);
+  }
+
+  /**
+   * 使用SQL语句查询
+   * @param clazz
+   * @param sql
+   * @param params
+   * @param <T>
+   * @return 指定类型的对象的列表
+   */
+  public <T> ArrayList<T> queryObjectList(Class<T> clazz, String sql, Object... params){
+    ArrayList<T> list = new ArrayList<>();
     final ArrayList<Object[]> objectsList = queryObjectArrayList(sql, params);
     for(int len = objectsList.size(), i = 0; i < len; i++){
       final Object[] objects = objectsList.get(i);
       if(objects != null && objects.length > 0){
-        list.add(objects[0]);
+        Object obj = objects[0];
+        if(obj.getClass().equals(clazz)){
+          list.add((T)obj);
+        }
       }
     }
     return list;
@@ -480,7 +495,7 @@ public class BaseDao {
    * @param pageSize 页大小
    * @return mysql的分页语句，类似于limit 90, 100 这种，打头是一个空格，便于处理
    */
-  public String getMySQLPageLimit(int page, int pageSize) {
+  public static String getMySQLPageLimit(int page, int pageSize) {
     if (page < 1) {
       page = 1;
     }
