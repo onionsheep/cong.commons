@@ -54,7 +54,7 @@ public class WebUtil {
     saveParameterInSession(req, name, null);
   }
 
-  public static void clearParametersInSession(final HttpServletRequest req){
+  public static void removeAllParametersInSession(final HttpServletRequest req){
     req.getSession().setAttribute(PARAM_SESSION_NAME, null);
   }
 
