@@ -503,7 +503,13 @@ public class BaseDao {
       pageSize = 10;
     }
     int first = (page - 1) * pageSize;
-    return String.format(" limit %d, %d", first, pageSize);
+    final StringBuilder sb = new StringBuilder(20);
+    sb.append(" limit ");
+    sb.append(first);
+    sb.append(", ");
+    sb.append(pageSize);
+    sb.append(" ");
+    return sb.toString();
   }
 
   /**
