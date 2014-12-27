@@ -109,7 +109,9 @@ public class DBUtil {
         for (String columnName : columnNameList) {
           Object o = resultSet.getObject(columnName);
           String fieldName = columnFieldMap.get(columnName);
-          BeanUtil.setDeclaredProperty(t, fieldName, o);
+          if(fieldName != null){
+            BeanUtil.setDeclaredProperty(t, fieldName, o);
+          }
         }
         tList.add(t);
       }
