@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DBUtil {
 
-  private static final Logger log = LoggerFactory.getLogger(DBUtil.class);
+  private static final Logger LOG = LoggerFactory.getLogger(DBUtil.class);
 
   private static ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<Connection>();
 
@@ -55,8 +55,8 @@ public class DBUtil {
       try {
         connection = dds.getConnection();
       } catch (SQLException e) {
-        log.error("获取数据库连接异常，异常信息{}", e.getMessage());
-        log.info("数据源将被重置。");
+        LOG.error("获取数据库连接异常，异常信息{}", e.getMessage());
+        LOG.info("数据源将被重置。");
         dds = reInitDds();
         e.printStackTrace();
       }
@@ -72,7 +72,7 @@ public class DBUtil {
         connection.close();
       }
     } catch (SQLException e) {
-      log.debug("关闭connection发生异常");
+      LOG.debug("关闭connection发生异常");
       e.printStackTrace();
     }
   }
@@ -111,18 +111,21 @@ public class DBUtil {
           String fieldName = columnFieldMap.get(columnName);
           if(fieldName != null){
             BeanUtil.setDeclaredProperty(t, fieldName, o);
+          }else if(LOG.isDebugEnabled()){
+            LOG.warn("fieldName {} is not found in Class {} and will be ignored."
+                    , fieldName, clazz.getName());
           }
         }
         tList.add(t);
       }
     } catch (SQLException e) {
-      log.error("SQL异常，{}", e.getMessage());
+      LOG.error("SQL异常，{}", e.getMessage());
       e.printStackTrace();
     } catch (InstantiationException e) {
-      log.error("初始化对象错误，{}", e.getMessage());
+      LOG.error("初始化对象错误，{}", e.getMessage());
       e.printStackTrace();
     } catch (IllegalAccessException e) {
-      log.error("访问权限错误，{}", e.getMessage());
+      LOG.error("访问权限错误，{}", e.getMessage());
       e.printStackTrace();
     }
     return tList;
@@ -154,7 +157,7 @@ public class DBUtil {
         list.add(map);
       }
     } catch (SQLException e) {
-      log.error("SQL异常，{}", e.getMessage());
+      LOG.error("SQL异常，{}", e.getMessage());
       e.printStackTrace();
     }
     return list;
@@ -180,7 +183,7 @@ public class DBUtil {
         list.add(objctArray);
       }
     } catch (SQLException e) {
-      log.error("SQL异常，{}", e.getMessage());
+      LOG.error("SQL异常，{}", e.getMessage());
       e.printStackTrace();
     }
     return list;
