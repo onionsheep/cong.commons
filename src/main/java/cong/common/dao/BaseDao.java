@@ -383,9 +383,17 @@ public class BaseDao {
     return new Pair<Connection, ResultSet>(connection, resultSet);
   }
 
+  /**
+   * 把SQL和对应的参数输出格式化的日志
+   * @param sql
+   * @param params
+   */
   protected void logSQLAndParams(String sql, Object[] params) {
-    log.debug("query sql : {}", sql);
-    final StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder("\n");
+    sb.append(sql);
+    if(params != null && params.length > 0){
+      sb.append("\n| ");
+    }
     for (Object paramObj : params) {
       if(paramObj instanceof String && ((String)paramObj).length() > 100){
         sb.append("\n");
@@ -396,7 +404,7 @@ public class BaseDao {
         sb.append(" | ");
       }
     }
-    log.debug("param : {}", sb);
+    log.debug("SQL and Param : {}", sb);
   }
 
   /**
