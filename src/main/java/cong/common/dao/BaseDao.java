@@ -367,10 +367,7 @@ public class BaseDao {
    */
   public Pair<Connection, ResultSet> executeQuery(String sql, Object... params) {
     if (log.isDebugEnabled()) {
-      log.debug("query sql : {}", sql);
-      for (Object paramObj : params) {
-        log.debug("param : {}", paramObj);
-      }
+      logSQLAndParams(sql, params);
     }
     Connection connection = null;
     ResultSet resultSet = null;
@@ -384,6 +381,22 @@ public class BaseDao {
       e.printStackTrace();
     }
     return new Pair<Connection, ResultSet>(connection, resultSet);
+  }
+
+  protected void logSQLAndParams(String sql, Object[] params) {
+    log.debug("query sql : {}", sql);
+    final StringBuilder sb = new StringBuilder();
+    for (Object paramObj : params) {
+      if(paramObj instanceof String && ((String)paramObj).length() > 100){
+        sb.append("\n");
+        sb.append(paramObj);
+        sb.append("\n");
+      }else{
+        sb.append(paramObj);
+        sb.append(" | ");
+      }
+    }
+    log.debug("param : {}", sb);
   }
 
   /**
@@ -437,10 +450,7 @@ public class BaseDao {
    */
   public int executeUpdate(String sql, Object... params) {
     if (log.isDebugEnabled()) {
-      log.debug("update sql : {}", sql);
-      for (Object paramObj : params) {
-        log.debug("param : {}", paramObj);
-      }
+      logSQLAndParams(sql, params);
     }
     int result = -1;
     try {
