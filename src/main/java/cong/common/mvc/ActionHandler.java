@@ -18,9 +18,9 @@ public class ActionHandler {
     protected Map<String, Method> actionMap;
 
     /**
-     * @param req
-     * @param resp
-     * @return
+     * @param req HttpServletRequest
+     * @param resp HttpServletResponse
+     * @return 是否处理
      */
     public boolean handle(HttpServletRequest req, HttpServletResponse resp) {
 

@@ -7,16 +7,17 @@ import java.util.List;
 public class MathUtils {
 
     /**
-     * 求List中最大的第K个数，不止限于数值，一切可以比较的对象都可以。 <br/>
-     * 比如：list = [1,3,5,7,9,2,4,6,8,10], k = 5, 返回6。 <br/>
-     * 算法的最坏情况下的时间复杂度为O(n*k)，最好为O(n),其中n是列表中元素的个数<br/>
-     * 算法的空间复杂度为O(k)，使用了一个辅助列表。<br/>
+     * 求List中最大的第K个数，不止限于数值，一切可以比较的对象都可以。 <br>
+     * 比如：list = [1,3,5,7,9,2,4,6,8,10], k = 5, 返回6。 <br>
+     * 算法的最坏情况下的时间复杂度为O(n*k)，最好为O(n),其中n是列表中元素的个数<br>
+     * 算法的空间复杂度为O(k)，使用了一个辅助列表。<br>
      * 该方法适合在k比较小的时候使用
      * 
      * @param list
      *            存放待求最大第K个数的List
      * @param k
      *            K
+     *            @param <T> 列表泛型类型
      * @return 最大的第K个数
      */
     public static <T extends Comparable<T>> T topK(List<T> list, int k) {

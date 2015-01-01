@@ -107,7 +107,7 @@ public class SQLCache {
    * @param fieldColumnNameMap  类的成员名到数据库列名的对应关系，null自动调用fieldColumnMapMaker去生成
    * @param fieldColumnMapMaker fieldColumnNameMap生成器，null时默认为 SQLCache#defaultFieldColumnMapMaker
    * @param tableNameMaker      类名到表名的生成器，默认为 SQLCache#defaultTableNameMaker
-   * @return
+   * @return 某个对象对应的用于BaseDao等的SQL相关的缓存。
    */
   public static SQLCache getSqlCache(Class<?> clazz,
                                      String tableName,

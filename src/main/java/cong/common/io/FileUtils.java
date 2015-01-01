@@ -90,23 +90,32 @@ public class FileUtils {
     return null;
   }
 
-  /**
-   * @see #readFileToString(File, Charset)
-   */
+    /**
+     * @see #readFileToString(File, Charset)
+     * @param filePath 文件路径
+     * @param charset 字符编码
+     * @return 整个文件作为一个字符串
+     */
   public static String readFileToString(String filePath, Charset charset) {
     return readFileToString(new File(filePath), charset);
   }
 
-  /**
-   * @see #readFileToString(File, Charset)
-   */
+    /**
+     * @see #readFileToString(File, Charset)
+     * @param filePath 文件路径
+     * @param charsetName 字符编码
+     * @return 整个文件作为一个字符串
+     */
   public static String readFileToString(String filePath, String charsetName) {
     return readFileToString(new File(filePath), Charset.forName(charsetName));
   }
 
-  /**
-   * @see #readFileToString(File, Charset)
-   */
+    /**
+     * @see #readFileToString(File, Charset)
+     * @param f 文件
+     * @param charsetName 字符编码
+     * @return 整个文件作为一个字符串
+     */
   public static String readFileToString(File f, String charsetName) {
     return readFileToString(f, Charset.forName(charsetName));
   }
@@ -118,7 +127,7 @@ public class FileUtils {
    *          文件
    * @param charset
    *          打开文件用的编码
-   * @return ArrayList<String>每个元素是一行，异常返回null
+   * @return ArrayList&lt;String&gt;每个元素是一行，异常返回null
    */
   public static ArrayList<String> readLines(File f, Charset charset) {
     try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f),
@@ -139,23 +148,31 @@ public class FileUtils {
     return null;
   }
 
-  /**
-   * @see #readLines(File, Charset)
-   */
+    /**
+     * @see #readLines(File, Charset)
+     * @param filePath 文件路径
+     * @param charsetName 字符编码
+     * @return 整个文件，每一行作为列表的每一个元素
+     */
   public static ArrayList<String> readLines(String filePath, String charsetName) {
     return readLines(new File(filePath), Charset.forName(charsetName));
   }
 
-  /**
-   * @see #readLines(File, Charset)
-   */
+    /**
+     * @see #readLines(File, Charset)
+     * @param f 文件
+     * @param charsetName 字符编码
+     * @return 整个文件，每一行作为列表的每一个元素
+     */
   public static ArrayList<String> readLines(File f, String charsetName) {
     return readLines(f, Charset.forName(charsetName));
   }
 
-  /**
-   * @see #readLines(File, Charset)
-   */
+    /**
+     * @see #readLines(File, Charset)
+     * @param filePath 文件路径
+     * @return 整个文件作为一个字符串
+     */
   public static ArrayList<String> readLines(String filePath) {
     return readLines(new File(filePath), Charset.defaultCharset());
   }
@@ -186,30 +203,44 @@ public class FileUtils {
 
   }
 
-  /**
-   * @see #writeStringToFile(File, String, Charset, boolean)
-   */
+    /**
+     * @see #writeStringToFile(File, String, Charset, boolean)
+     * @param f 文件
+     * @param str 需要写入的字符串
+     * @param append 是否为追加
+     */
   public static void writeStringToFile(File f, String str, boolean append) {
     writeStringToFile(f, str, Charset.defaultCharset(), append);
   }
 
-  /**
-   * @see #writeStringToFile(File, String, Charset, boolean)
-   */
+    /**
+     * @see #writeStringToFile(File, String, Charset, boolean)
+     * @param f 文件
+     * @param str 需要写入的字符串
+     * @param charsetName 文件字符编码
+     * @param append 是否为追加
+     */
   public static void writeStringToFile(File f, String str, String charsetName, boolean append) {
     writeStringToFile(f, str, Charset.forName(charsetName), append);
   }
 
-  /**
-   * @see #writeStringToFile(File, String, Charset, boolean)
-   */
+    /**
+     * @see #writeStringToFile(File, String, Charset, boolean)
+     * @param filePath 文件路径
+     * @param str 需要写入的字符串
+     * @param append 是否为追加
+     */
   public static void writeStringToFile(String filePath, String str, boolean append) {
     writeStringToFile(new File(filePath), str, Charset.defaultCharset(), append);
   }
 
-  /**
-   * @see #writeStringToFile(File, String, Charset, boolean)
-   */
+    /**
+     * @see #writeStringToFile(File, String, Charset, boolean)
+     * @param filePath 文件路径
+     * @param str 需要写入的字符串
+     * @param charsetName 文件字符编码
+     * @param append 是否为追加
+     */
   public static void writeStringToFile(String filePath,
                                        String str,
                                        String charsetName,
@@ -219,9 +250,10 @@ public class FileUtils {
 
   /**
    * 测试性质，不可用
-   * @param filePath
-   * @return
+   * @param filePath 文件路径
+   * @return 整个文件的字符串
    */
+  @Deprecated
   public static String readFileToStringNIO(String filePath) {
     try {
       FileChannel fch = FileChannel.open(Paths.get(filePath), StandardOpenOption.READ);

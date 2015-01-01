@@ -16,9 +16,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * 把contextPath设置到ServletContext中<br/>
- * request中的参数列表parameterMap设置到request的parameterMap属性中，此参数的值为String[]<br/>
- * 把parameterMap中的值的第一个拿出来，形成一个单一值的paramMap，并设置到request的paramMap属性中<br/>
+ * 把contextPath设置到ServletContext中<br>
+ * request中的参数列表parameterMap设置到request的parameterMap属性中，此参数的值为String[]<br>
+ * 把parameterMap中的值的第一个拿出来，形成一个单一值的paramMap，并设置到request的paramMap属性中<br>
  * 读取初始化参数defaultCharset，并设置编码，若为空，则默认为UTF-8
  */
 public class CommonFilter implements Filter {
