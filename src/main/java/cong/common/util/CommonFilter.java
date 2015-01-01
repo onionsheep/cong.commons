@@ -69,11 +69,9 @@ public class CommonFilter implements Filter {
             if (paramSize > 0) {
                 StringBuffer sb = new StringBuffer();
                 for (Entry<String, String[]> e : parameterMap.entrySet()) {
-                    if (paramSize > 1) {
-                        sb.append("\n");
-                    }
                     sb.append(e.getKey());
                     sb.append(Arrays.toString(e.getValue()));
+                    sb.append(" | ");
                 }
                 log.debug("param lists :{}", sb.toString());
             }
