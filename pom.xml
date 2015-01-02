@@ -4,7 +4,7 @@
     <groupId>cong</groupId>
     <artifactId>commons</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>cong.commons</name>
     <description>一些通用代码</description>
 
@@ -30,8 +30,8 @@
 
     <distributionManagement>
         <repository>
-            <id>thirdparty</id>
-            <url>http://192.168.11.185:8081/nexus/content/repositories/thirdparty</url>
+            <id>releases</id>
+            <url>http://192.168.11.185:8081/nexus/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
             <id>snapshots</id>
@@ -171,7 +171,7 @@
                 <executions>
                     <execution>
                         <id>attach-sources</id>
-                        <phase>deploy</phase>
+                        <!--<phase>deploy</phase>-->
                         <goals><goal>jar-no-fork</goal></goals>
                     </execution>
                 </executions>
@@ -187,7 +187,7 @@
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
-                        <phase>deploy</phase>
+                        <!--<phase>deploy</phase>-->
                         <goals><goal>jar</goal></goals>
                     </execution>
                 </executions>
@@ -199,8 +199,8 @@
                 <executions>
                     <execution>
                         <id>deploy</id>
-                        <phase>deploy</phase>
-                        <goals><goal>deploy</goal></goals>
+                        <!--<phase>deploy</phase>-->
+                        <!--<goals><goal>deploy</goal></goals>-->
                     </execution>
                 </executions>
             </plugin>
