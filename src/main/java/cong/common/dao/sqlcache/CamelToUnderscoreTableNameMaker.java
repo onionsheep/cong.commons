@@ -6,7 +6,7 @@ import jodd.util.StringUtil;
  * Created by cong on 2014/10/22.
  */
 public class CamelToUnderscoreTableNameMaker implements TableNameMaker {
-  public String getTableNameFromClass(String tableNamePrefix, Class<?> clazz) {
-    return StringUtil.fromCamelCase(tableNamePrefix + clazz.getSimpleName(), '_');
-  }
+    public String getTableNameFromClass(String tableNamePrefix, Class<?> clazz) {
+        return StringUtil.fromCamelCase(tableNamePrefix + clazz.getSimpleName(), '_');
+    }
 }

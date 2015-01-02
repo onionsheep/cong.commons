@@ -26,6 +26,29 @@ import java.util.HashMap;
 public class BaseDao {
     private static final Logger log = LoggerFactory.getLogger(BaseDao.class);
 
+    /**
+     * 获得mysql分页语句，如果传入的参数不合法，默认第一页，每页10条
+     *
+     * @param page     页码
+     * @param pageSize 页大小
+     * @return mysql的分页语句，类似于limit 90, 100 这种，打头是一个空格，便于处理
+     */
+    public static String getMySQLPageLimit(int page, int pageSize) {
+        if (page < 1) {
+            page = 1;
+        }
+        if (pageSize < 0) {
+            pageSize = 10;
+        }
+        int first = (page - 1) * pageSize;
+        final StringBuilder sb = new StringBuilder(20);
+        sb.append(" limit ");
+        sb.append(first);
+        sb.append(", ");
+        sb.append(pageSize);
+        sb.append(" ");
+        return sb.toString();
+    }
 
     /**
      * 向数据库中添加一个对象，使用默认连接，默认数据库。表名字段名使用SQLCache中定义的规则
@@ -134,7 +157,6 @@ public class BaseDao {
         return executeUpdate(sql, params);
     }
 
-
     /**
      * 查询某个类对应表的所有数据
      *
@@ -205,29 +227,29 @@ public class BaseDao {
      * 无条件mysql分页查询
      *
      * @param clazz    对象类型
-     * @param page     页码
+     * @param pageNum  页码
      * @param pageSize 页大小
      * @param <T>      对象类型
      * @return 对象列表
      */
-    public <T> ArrayList<T> queryByPageMySQL(Class<T> clazz, int page, int pageSize) {
-        return queryByPageMySQL(clazz, page, pageSize, null);
+    public <T> ArrayList<T> queryByPageMySQL(Class<T> clazz, int pageNum, int pageSize) {
+        return queryByPageMySQL(clazz, pageNum, pageSize, null);
     }
 
     /**
      * mysql分页查询，带有条件
      *
      * @param clazz       对象类型
-     * @param page        页码
+     * @param pageNum     页码
      * @param pageSize    页大小
      * @param whereClause where语句，用?做参数
      * @param params      参数列表，顺序where语句中的顺序一致
      * @param <T>         对象类型
      * @return 对象列表，空的话返回空列表，非null
      */
-    public <T> ArrayList<T> queryByPageMySQL(Class<T> clazz, int page, int pageSize, String whereClause, Object... params) {
+    public <T> ArrayList<T> queryByPageMySQL(Class<T> clazz, int pageNum, int pageSize, String whereClause, Object... params) {
         ArrayList<T> list = new ArrayList<T>();
-        if ((page < 1) || (pageSize < 1)) {
+        if ((pageNum < 1) || (pageSize < 1)) {
             return list;
         }
         SQLCache sqlCache = SQLCache.getSqlCache(clazz);
@@ -235,7 +257,7 @@ public class BaseDao {
         if (!StringUtil.isBlank(whereClause)) {
             sql += (" " + whereClause);
         }
-        sql += getMySQLPageLimit(page, pageSize);
+        sql += getMySQLPageLimit(pageNum, pageSize);
         list = queryEntityListBySQL(clazz, sql, params);
         return list;
     }
@@ -362,7 +384,6 @@ public class BaseDao {
         }
         return list;
     }
-
 
     /**
      * 执行sql查询，数据库连接使用 DBUtil.getConnection()，并返回，在需要的时候关闭
@@ -511,30 +532,6 @@ public class BaseDao {
         String sql = sqlCache.getSql(SQLCache.SQL_TYPE_DELETE);
         log.debug("delete sql : {}", sql);
         return executeUpdate(sql, id);
-    }
-
-    /**
-     * 获得mysql分页语句，如果传入的参数不合法，默认第一页，每页10条
-     *
-     * @param page     页码
-     * @param pageSize 页大小
-     * @return mysql的分页语句，类似于limit 90, 100 这种，打头是一个空格，便于处理
-     */
-    public static String getMySQLPageLimit(int page, int pageSize) {
-        if (page < 1) {
-            page = 1;
-        }
-        if (pageSize < 0) {
-            pageSize = 10;
-        }
-        int first = (page - 1) * pageSize;
-        final StringBuilder sb = new StringBuilder(20);
-        sb.append(" limit ");
-        sb.append(first);
-        sb.append(", ");
-        sb.append(pageSize);
-        sb.append(" ");
-        return sb.toString();
     }
 
     /**

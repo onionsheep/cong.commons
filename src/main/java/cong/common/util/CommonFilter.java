@@ -45,7 +45,7 @@ public class CommonFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse)response;
+        HttpServletResponse resp = (HttpServletResponse) response;
 
         req.setCharacterEncoding(defaultCharset);
         resp.setCharacterEncoding(defaultCharset);

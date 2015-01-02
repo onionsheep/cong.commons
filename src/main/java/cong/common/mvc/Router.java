@@ -1,6 +1,6 @@
 /**
  * 创建 @ 2013年7月23日 上午11:57:31
- * 
+ *
  */
 package cong.common.mvc;
 
@@ -14,23 +14,22 @@ import java.io.IOException;
 
 /**
  * @author 刘聪 (onion_sheep@163.com | onionsheep@gmail.com)
- * 
  */
 public class Router implements Filter {
 
     protected String appContextPath;
     protected int appContextPathLength;
-    
+
     private Logger log = LoggerFactory.getLogger(Router.class);
-    
-    protected String removeAppContectPath(String uri){
+
+    protected String removeAppContectPath(String uri) {
         String path = null;
-        if(uri != null && uri.length() > appContextPathLength){
+        if (uri != null && uri.length() > appContextPathLength) {
             path = uri.substring(appContextPathLength);
         }
         return path;
     }
-    
+
     @Override
     public void init(FilterConfig config) throws ServletException {
         ServletContext context = config.getServletContext();
@@ -54,13 +53,13 @@ public class Router implements Filter {
 
         String requestPath = removeAppContectPath(req.getRequestURI());
         log.debug("request path is : {}", requestPath);
-        
+
         ActionHandler handler = new ActionHandler();
-        
-        if(handler.handle(req, resp)){
+
+        if (handler.handle(req, resp)) {
             log.debug("action is performed.");
             return;
-        }else{
+        } else {
             log.debug("action is not performed.");
         }
         chain.doFilter(request, response);

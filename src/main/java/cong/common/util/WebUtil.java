@@ -30,9 +30,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WebUtil {
 
 
-    private static final Logger LG = LoggerFactory.getLogger(WebUtil.class);
-
     public static final String PARAM_SESSION_NAME = "_param_storage";
+    private static final Logger LG = LoggerFactory.getLogger(WebUtil.class);
 
     public static <T> void saveParameterInSession(final HttpServletRequest req, final String name, final T t) {
         if (StringUtil.isNotBlank(name)) {
@@ -75,7 +74,7 @@ public class WebUtil {
      * @param req   Http请求
      * @param clazz 要取出的对象的类型
      * @param names 参数名称列表
-     * @param <T> 泛型类型
+     * @param <T>   泛型类型
      * @return clazz类型的对象，如果请求中无此对象，返回null
      */
     public static <T> T getParameter(final HttpServletRequest req, final Class<T> clazz, final String... names) {

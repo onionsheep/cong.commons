@@ -10,23 +10,23 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class OriginalNameFieldColumnMapMaker implements FieldColumnMapMaker {
 
-  @Override
-  public ConcurrentHashMap<String, String> makeFieldColumnMap(Field[] fields, ConcurrentHashMap<String, String> mapToMake) {
-    if (mapToMake == null) {
-      mapToMake = new ConcurrentHashMap<String, String>();
+    @Override
+    public ConcurrentHashMap<String, String> makeFieldColumnMap(Field[] fields, ConcurrentHashMap<String, String> mapToMake) {
+        if (mapToMake == null) {
+            mapToMake = new ConcurrentHashMap<String, String>();
+        }
+        for (Field field : fields) {
+            String fieldName = field.getName();
+            if (StringUtil.isBlank(mapToMake.get(fieldName))) {
+                mapToMake.put(fieldName, fieldName);
+            }
+        }
+        return mapToMake;
     }
-    for (Field field : fields) {
-      String fieldName = field.getName();
-      if (StringUtil.isBlank(mapToMake.get(fieldName))) {
-        mapToMake.put(fieldName, fieldName);
-      }
-    }
-    return mapToMake;
-  }
 
-  @Override
-  public ConcurrentHashMap<String, String> makeFieldColumnMap(Field[] fields) {
-    return makeFieldColumnMap(fields, null);
-  }
+    @Override
+    public ConcurrentHashMap<String, String> makeFieldColumnMap(Field[] fields) {
+        return makeFieldColumnMap(fields, null);
+    }
 
 }

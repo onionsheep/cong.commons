@@ -6,8 +6,8 @@ import java.lang.annotation.*;
  * Created by cong on 2014/12/9.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target({ElementType.FIELD, ElementType.METHOD})
 @Documented
-public @interface Table {
-    String name() default "";
+public @interface NotInDB {
+    String value() default "";
 }

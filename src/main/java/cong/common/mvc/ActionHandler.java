@@ -1,6 +1,6 @@
 /**
  * 创建 @ 2013年7月24日 上午11:35:54
- * 
+ *
  */
 package cong.common.mvc;
 
@@ -11,14 +11,13 @@ import java.util.Map;
 
 /**
  * @author 刘聪 (onion_sheep@163.com | onionsheep@gmail.com)
- * 
  */
 public class ActionHandler {
 
     protected Map<String, Method> actionMap;
 
     /**
-     * @param req HttpServletRequest
+     * @param req  HttpServletRequest
      * @param resp HttpServletResponse
      * @return 是否处理
      */

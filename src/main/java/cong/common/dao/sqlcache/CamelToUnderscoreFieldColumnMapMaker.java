@@ -10,24 +10,24 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class CamelToUnderscoreFieldColumnMapMaker implements FieldColumnMapMaker {
 
-  @Override
-  public ConcurrentHashMap<String, String> makeFieldColumnMap(Field[] fields, ConcurrentHashMap<String, String> mapToMake) {
-    if (mapToMake == null) {
-      mapToMake = new ConcurrentHashMap<String, String>();
+    @Override
+    public ConcurrentHashMap<String, String> makeFieldColumnMap(Field[] fields, ConcurrentHashMap<String, String> mapToMake) {
+        if (mapToMake == null) {
+            mapToMake = new ConcurrentHashMap<String, String>();
+        }
+        for (Field field : fields) {
+            String fieldName = field.getName();
+            if (StringUtil.isBlank(mapToMake.get(fieldName))) {
+                String columnName = StringUtil.fromCamelCase(fieldName, '_');
+                mapToMake.put(fieldName, columnName);
+            }
+        }
+        return mapToMake;
     }
-    for (Field field : fields) {
-      String fieldName = field.getName();
-      if (StringUtil.isBlank(mapToMake.get(fieldName))) {
-        String columnName = StringUtil.fromCamelCase(fieldName, '_');
-        mapToMake.put(fieldName, columnName);
-      }
-    }
-    return mapToMake;
-  }
 
-  @Override
-  public ConcurrentHashMap<String, String> makeFieldColumnMap(Field[] fields) {
-    return makeFieldColumnMap(fields, null);
-  }
+    @Override
+    public ConcurrentHashMap<String, String> makeFieldColumnMap(Field[] fields) {
+        return makeFieldColumnMap(fields, null);
+    }
 
 }
