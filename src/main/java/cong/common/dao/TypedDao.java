@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class TypedDao <T> extends BaseDao {
     private Class<T> clazz;
 
-    public TypedDao(Class<T> clazz) {
-        this.clazz = clazz;
+    public TypedDao() {
+        this.clazz = (Class<T>)getClass();
     }
 
     public ArrayList<T> queryAll() {
