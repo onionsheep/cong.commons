@@ -353,7 +353,6 @@ public class BaseDao {
         if (list == null) {
             list = new ArrayList<>();
         }
-        closeResultAndConnection(connectionResultSetPair.getV2(), connectionResultSetPair.getV1());
         return list;
     }
 
