@@ -11,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -58,6 +55,16 @@ public class BaseDao {
      * @return 数据库执行完添加语句的返回值，影响的行数
      */
     public <T> int add(T t) {
+        final Pair<String, Object[]> pair = prepareAdd(t);
+        return executeUpdate(pair.getV1(), pair.getV2());
+    }
+
+    public <T> Pair<Integer, Long> addAndGetKey(T t) {
+        final Pair<String, Object[]> pair = prepareAdd(t);
+        return executeInsert(pair.getV1(), pair.getV2());
+    }
+
+    protected <T> Pair<String, Object[]> prepareAdd(T t){
         Class<?> clazz = t.getClass();
         SQLCache sqlCache = SQLCache.getSqlCache(clazz);
         String sql = sqlCache.getSql(SQLCache.SQL_TYPE_ADD);
@@ -67,7 +74,7 @@ public class BaseDao {
             Object value = BeanUtil.getDeclaredProperty(t, fields[i].getName());
             params[i] = value;
         }
-        return executeUpdate(sql, params);
+        return new Pair<>(sql, params);
     }
 
     /**
@@ -504,6 +511,39 @@ public class BaseDao {
         }
         return result;
     }
+
+    /**
+     * 执行一条Insert语句，并返回影响的行数和生成的KEY
+     * @param sql 查询语句
+     * @param params 参数列表
+     * @return Pair(影响行数,生成的KEY)
+     */
+    public Pair<Integer, Long> executeInsert(String sql, Object... params) {
+        if (log.isDebugEnabled()) {
+            logSQLAndParams(sql, params);
+        }
+        Integer result = -1;
+        Long key = -1l;
+        try {
+            Connection connection = DBUtil.getConnection();
+            PreparedStatement prepareStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            if (params != null) {
+                setParamsIntoPrepareStatement(prepareStatement, params);
+            }
+            result = prepareStatement.executeUpdate();
+            final ResultSet rs = prepareStatement.getGeneratedKeys();
+            if (rs != null && rs.next()) {
+                key = rs.getLong(1);
+            }
+            prepareStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            log.error("发生异常 {}", e.getMessage());
+            e.printStackTrace();
+        }
+        return new Pair<>(result, key);
+    }
+
 
     /**
      * 从数据库中删除某个对象，根据对象中的id属性作为id字段删除
