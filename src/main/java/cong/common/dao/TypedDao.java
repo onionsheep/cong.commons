@@ -1,5 +1,7 @@
 package cong.common.dao;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +11,9 @@ public class TypedDao <T> extends BaseDao {
     private Class<T> clazz;
 
     public TypedDao() {
-        this.clazz = (Class<T>)getClass();
+        final Type type = getClass().getGenericSuperclass();
+        Type[] trueType = ((ParameterizedType) type).getActualTypeArguments();
+        this.clazz = (Class<T>) trueType[0];
     }
 
     public ArrayList<T> queryAll() {
