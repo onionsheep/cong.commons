@@ -17,46 +17,46 @@ public class TypedDao <T> extends BaseDao {
     }
 
     public T queryById(Object id) {
-        return super.queryById(this.clazz, id);
+        return queryById(this.clazz, id);
     }
 
     public ArrayList<T> queryByField(String columnName, Object fieldValue) {
-        return super.queryByField(this.clazz, columnName, fieldValue);
+        return queryByField(this.clazz, columnName, fieldValue);
     }
 
     public T queryOneByField(String columnName, Object fieldValue) {
-        return super.queryOneByField(this.clazz, columnName, fieldValue);
+        return queryOneByField(this.clazz, columnName, fieldValue);
     }
 
     public ArrayList<T> queryByPageMySQL(int pageNum, int pageSize) {
-        return super.queryByPageMySQL(this.clazz, pageNum, pageSize);
+        return queryByPageMySQL(this.clazz, pageNum, pageSize);
     }
 
     public ArrayList<T> queryByPageMySQL(int pageNum, int pageSize, String whereClause, Object... params) {
-        return super.queryByPageMySQL(this.clazz, pageNum, pageSize, whereClause, params);
+        return queryByPageMySQL(this.clazz, pageNum, pageSize, whereClause, params);
     }
 
     public ArrayList<T> queryBySQLWhereClause(String whereClause, Object... params) {
-        return super.queryBySQLWhereClause(this.clazz, whereClause, params);
+        return queryBySQLWhereClause(this.clazz, whereClause, params);
     }
 
     public ArrayList<T> queryEntityListBySQL(String sql, Object... params) {
-        return super.queryEntityListBySQL(this.clazz, sql, params);
+        return queryEntityListBySQL(this.clazz, sql, params);
     }
 
     public ArrayList<Object> queryObjectList(String sql, Object... params) {
-        return super.queryObjectList(this.clazz, sql, params);
+        return queryObjectList(this.clazz, sql, params);
     }
 
     public int deleteById(Object id) {
-        return super.deleteById(this.clazz, id);
+        return deleteById(this.clazz, id);
     }
 
     public Long count() {
-        return super.count(this.clazz);
+        return count(this.clazz);
     }
 
     public Long count(String whereClause, Object... params) {
-        return super.count(this.clazz, whereClause, params);
+        return count(this.clazz, whereClause, params);
     }
 }
