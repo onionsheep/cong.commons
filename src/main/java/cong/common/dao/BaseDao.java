@@ -370,15 +370,15 @@ public class BaseDao {
      * @param <T>    对象类型
      * @return 指定类型的对象的列表
      */
-    public <T> ArrayList<T> queryObjectList(Class<T> clazz, String sql, Object... params) {
-        ArrayList<T> list = new ArrayList<>();
+    public <T> ArrayList<Object> queryObjectList(Class<T> clazz, String sql, Object... params) {
+        ArrayList<Object> list = new ArrayList<>();
         final ArrayList<Object[]> objectsList = queryObjectArrayList(sql, params);
         for (int len = objectsList.size(), i = 0; i < len; i++) {
             final Object[] objects = objectsList.get(i);
             if (objects != null && objects.length > 0) {
                 Object obj = objects[0];
                 if (obj.getClass().equals(clazz)) {
-                    list.add((T) obj);
+                    list.add(obj);
                 }
             }
         }
