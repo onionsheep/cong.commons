@@ -11,6 +11,7 @@ public class TypedDao <T> extends BaseDao {
     private Class<T> clazz;
 
     public TypedDao() {
+        //此处代码有待琢磨,对于各种异常的处理，还有泛型的机制
         final Type type = getClass().getGenericSuperclass();
         Type[] trueType = ((ParameterizedType) type).getActualTypeArguments();
         this.clazz = (Class<T>) trueType[0];

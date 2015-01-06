@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
@@ -77,7 +78,7 @@ public class WebUtil {
      * @param <T>   泛型类型
      * @return clazz类型的对象，如果请求中无此对象，返回null
      */
-    public static <T> T getParameter(final HttpServletRequest req, final Class<T> clazz, final String... names) {
+    public static <T> T getParameter(final ServletRequest req, final Class<T> clazz, final String... names) {
         T t = null;
         for (final String name : names) {
             t = getParameter(req, clazz, name);
@@ -98,7 +99,7 @@ public class WebUtil {
      * @param <T>   泛型类型
      * @return clazz类型的对象，如果请求中无此对象，返回null
      */
-    public static <T> T getParameter(final HttpServletRequest req, final Class<T> clazz, final String name) {
+    public static <T> T getParameter(final ServletRequest req, final Class<T> clazz, final String name) {
         T t = null;
 
         String paramString = req.getParameter(name);
@@ -127,7 +128,7 @@ public class WebUtil {
      * @param <T>   泛型类型
      * @return clazz类型的对象， 找不到或者发生异常，返回null
      */
-    public static <T> T getParameter(final HttpServletRequest req, final Class<T> clazz) {
+    public static <T> T getParameter(final ServletRequest req, final Class<T> clazz) {
 
         T t = null;
         String tJSONString = req.getParameter(clazz.getSimpleName());
@@ -175,7 +176,7 @@ public class WebUtil {
      * @param <T>   参数对象类型
      * @return 如果有, 则返回该类型的一个对象，否则为null
      */
-    public static <T> T getParameterFromRequestStream(HttpServletRequest req, Class<T> clazz) {
+    public static <T> T getParameterFromRequestStream(ServletRequest req, Class<T> clazz) {
         T t = null;
         try {
             ServletInputStream is = req.getInputStream();
@@ -211,7 +212,7 @@ public class WebUtil {
      * @param <T>   泛型类型
      * @return T类型的List，或者null
      */
-    public static <T> List<T> getParamerterAsList(final HttpServletRequest req, final Class<T> clazz, final String name) {
+    public static <T> List<T> getParamerterAsList(final ServletRequest req, final Class<T> clazz, final String name) {
         List<T> tList = null;
         String[] stringValueArray = req.getParameterValues(name);
         if (stringValueArray.length == 1) {
@@ -236,11 +237,11 @@ public class WebUtil {
      * @param req HTTP请求
      * @return PageParam&lt;页码，页大小&gt;
      */
-    public static PageParam getPageParam(final HttpServletRequest req) {
+    public static PageParam getPageParam(final ServletRequest req) {
         return getPageParam(req, 10);
     }
 
-    public static PageParam getPageParam(final HttpServletRequest req, int defaultPageSize) {
+    public static PageParam getPageParam(final ServletRequest req, int defaultPageSize) {
         Integer page = getParameter(req, Integer.class, "p");
         Integer pageSize = getParameter(req, Integer.class, "ps");
         if (page == null || page < 1) {
