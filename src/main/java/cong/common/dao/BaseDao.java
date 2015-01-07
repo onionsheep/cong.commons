@@ -307,6 +307,28 @@ public class BaseDao {
     }
 
     /**
+     * 使用sql语句查询，只返回一个对象
+     *
+     * @param clazz  对象类型
+     * @param sql    sql语句，参数?表示
+     * @param params 参数列表
+     * @param <T>    对象类型
+     * @return 单个查询的对象，如果查不到，则返回null
+     */
+    public <T> T queryOneEntityListBySQL(Class<T> clazz, String sql, Object... params) {
+        T t = null;
+        final Pair<Connection, ResultSet> connectionResultSetPair = executeQuery(sql, params);
+        ArrayList<T> queryList = DBUtil.getBeanListFromResultSet(connectionResultSetPair.getV2(), clazz);
+        closeResultAndConnection(connectionResultSetPair.getV2(), connectionResultSetPair.getV1());
+
+        if (queryList != null && queryList.size() > 0) {
+            t = queryList.get(0);
+        }
+        return t;
+    }
+
+
+    /**
      * 使用SQL语句查询
      *
      * @param sql    SQL语句

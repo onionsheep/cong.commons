@@ -48,6 +48,9 @@ public class TypedDao <T> extends BaseDao {
     public ArrayList<T> queryEntityListBySQL(String sql, Object... params) {
         return queryEntityListBySQL(this.clazz, sql, params);
     }
+    public T queryOneEntityListBySQL(String sql, Object... params) {
+        return queryOneEntityListBySQL(this.clazz, sql, params);
+    }
 
     public ArrayList<Object> queryObjectList(String sql, Object... params) {
         return queryObjectList(this.clazz, sql, params);
