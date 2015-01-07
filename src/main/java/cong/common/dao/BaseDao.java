@@ -286,6 +286,25 @@ public class BaseDao {
         return list;
     }
 
+
+    /**
+     * 带有where从句的sql查询单个对象
+     *
+     * @param clazz       对象类型
+     * @param whereClause where从句
+     * @param params      参数列表
+     * @param <T>         对象类型
+     * @return 对象，查询不到返回null
+     */
+    public <T> T queryOneBySQLWhereClause(Class<T> clazz, String whereClause, Object... params) {
+        T t = null;
+        final ArrayList<T> list = queryBySQLWhereClause(clazz, whereClause, params);
+        if(list != null && list.size() > 0){
+            t = list.get(0);
+        }
+        return t;
+    }
+
     /**
      * 使用sql语句查询
      *
@@ -315,7 +334,7 @@ public class BaseDao {
      * @param <T>    对象类型
      * @return 单个查询的对象，如果查不到，则返回null
      */
-    public <T> T queryOneEntityListBySQL(Class<T> clazz, String sql, Object... params) {
+    public <T> T queryOneEntityBySQL(Class<T> clazz, String sql, Object... params) {
         T t = null;
         final Pair<Connection, ResultSet> connectionResultSetPair = executeQuery(sql, params);
         ArrayList<T> queryList = DBUtil.getBeanListFromResultSet(connectionResultSetPair.getV2(), clazz);
