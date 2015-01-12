@@ -26,18 +26,18 @@ public class BaseDao {
     /**
      * 获得mysql分页语句，如果传入的参数不合法，默认第一页，每页10条
      *
-     * @param page     页码
+     * @param pageNum     页码
      * @param pageSize 页大小
      * @return mysql的分页语句，类似于limit 90, 100 这种，打头是一个空格，便于处理
      */
-    public static String getMySQLPageLimit(int page, int pageSize) {
-        if (page < 1) {
-            page = 1;
+    public static String getMySQLPageLimit(Integer pageNum, Integer pageSize) {
+        if (pageNum == null || pageNum < 1) {
+            pageNum = 1;
         }
-        if (pageSize < 0) {
+        if (pageSize == null || pageSize < 0) {
             pageSize = 10;
         }
-        int first = (page - 1) * pageSize;
+        int first = (pageNum - 1) * pageSize;
         final StringBuilder sb = new StringBuilder(20);
         sb.append(" limit ");
         sb.append(first);
