@@ -513,7 +513,7 @@ public class BaseDao {
         }
 
         try {
-            if (connection != null && !connection.isClosed()) {
+            if(connection != null && connection.getAutoCommit() && !connection.isClosed()){
                 connection.close();
             }
         } catch (SQLException e) {
@@ -544,7 +544,9 @@ public class BaseDao {
             }
             result = prepareStatement.executeUpdate();
             prepareStatement.close();
-            connection.close();
+            if(connection.getAutoCommit()){
+                connection.close();
+            }
         } catch (SQLException e) {
             log.error("发生异常 {}", e.getMessage());
             e.printStackTrace();
@@ -576,7 +578,9 @@ public class BaseDao {
                 key = rs.getLong(1);
             }
             prepareStatement.close();
-            connection.close();
+            if(connection.getAutoCommit()){
+                connection.close();
+            }
         } catch (SQLException e) {
             log.error("发生异常 {}", e.getMessage());
             e.printStackTrace();
