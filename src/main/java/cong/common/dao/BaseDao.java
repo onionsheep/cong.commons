@@ -17,8 +17,9 @@ import java.util.HashMap;
 
 
 /**
+ * 通用的DAO类，结合SQLCache使用。<br>
+ * 默认没有事务控制，连接会自动关闭。<br>
  * @author cong 刘聪 onion_sheep@163.com|onionsheep@gmail.com
- *         首先，不处理任何特殊情况；所有名称驼峰转下划线；表名为#SQLCache.tableNamePrefix_加类名；每个表必须有个字段叫id，而且是整数自增主键；
  */
 public class BaseDao {
     private static final Logger log = LoggerFactory.getLogger(BaseDao.class);
@@ -50,7 +51,7 @@ public class BaseDao {
     /**
      * 向数据库中添加一个对象，使用默认连接，默认数据库。表名字段名使用SQLCache中定义的规则
      *
-     * @param t   对象
+     * @param t   要插入数据库的对象
      * @param <T> 对象的类型
      * @return 数据库执行完添加语句的返回值，影响的行数
      */
@@ -59,6 +60,12 @@ public class BaseDao {
         return executeUpdate(pair.getV1(), pair.getV2());
     }
 
+    /**
+     * 向数据库中添加一个对象，使用默认连接，默认数据库。表名字段名使用SQLCache中定义的规则。
+     * @param t 要插入数据库的对象
+     * @param <T> 对象的类型
+     * @return 一个值对，第一个值是SQL执行影响的条数。第二个是数据库中有自增主键的时候，自增的值。
+     */
     public <T> Pair<Integer, Long> addAndGetKey(T t) {
         final Pair<String, Object[]> pair = prepareAdd(t);
         return executeInsert(pair.getV1(), pair.getV2());
@@ -110,7 +117,8 @@ public class BaseDao {
     }
 
     /**
-     * 根据ID更新一个数据库中的对象, 忽略对象中为null的字段
+     * 根据ID更新一个数据库中的对象, 忽略对象中为null的字段<br>
+     *     这个方法会在执行的时候自动拼接SQL语句，相比于全部字段的update多消耗一些资源
      *
      * @param t   要更新的对象
      * @param <T> 对象的类型

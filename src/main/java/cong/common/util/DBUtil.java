@@ -16,6 +16,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -96,7 +97,7 @@ public class DBUtil {
             SQLCache sqlCache = SQLCache.getSqlCache(clazz);
             ConcurrentHashMap<String, String> columnFieldMap = sqlCache.getColumnFieldMap();
 
-            ArrayList<String> columnNameList = new ArrayList<String>();
+            LinkedList<String> columnNameList = new LinkedList<String>();
             for (int i = 1; i <= columnCount; i++) {
                 String columnName = metaData.getColumnName(i);
                 columnNameList.add(columnName);
