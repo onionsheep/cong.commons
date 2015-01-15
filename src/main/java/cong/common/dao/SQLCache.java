@@ -130,8 +130,12 @@ public class SQLCache {
                                        TableNameMaker tableNameMaker) {
         SQLCache sqlCache = sqlCacheMap.get(clazz);
         if (sqlCache == null) {
-            sqlCache = new SQLCache(clazz, tableName, idColumnName, fields, fieldColumnNameMap, fieldColumnMapMaker, tableNameMaker);
-            sqlCacheMap.put(clazz, sqlCache);
+            synchronized (clazz){
+                if(sqlCache == null){
+                    sqlCache = new SQLCache(clazz, tableName, idColumnName, fields, fieldColumnNameMap, fieldColumnMapMaker, tableNameMaker);
+                    sqlCacheMap.put(clazz, sqlCache);
+                }
+            }
         }
         return sqlCache;
     }
