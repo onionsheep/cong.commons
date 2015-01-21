@@ -1,7 +1,5 @@
 package cong.common.dao;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -10,11 +8,19 @@ import java.util.ArrayList;
 public class TypedDao <T> extends BaseDao {
     private Class<T> clazz;
 
-    public TypedDao() {
-        //此处代码有待琢磨,对于各种异常的处理，还有泛型的机制
-        final Type type = getClass().getGenericSuperclass();
-        Type[] trueType = ((ParameterizedType) type).getActualTypeArguments();
-        this.clazz = (Class<T>) trueType[0];
+
+    protected TypedDao() {
+        this.clazz = (Class<T>) DaoUtil.getTypeArguments(TypedDao.class, getClass()).get(0);
+        if(this.clazz == null){
+            throw new RuntimeException("无法自动识别泛型类型");
+        }
+    }
+
+    public TypedDao(Class<T> clazz){
+        if(clazz == null){
+            throw new RuntimeException("TypedDao 实体类型不能为Null");
+        }
+        this.clazz = clazz;
     }
 
     public ArrayList<T> queryAll() {

@@ -23,10 +23,14 @@ public class JSONView {
     public static void render(final HttpServletRequest req, final HttpServletResponse resp, final Object obj,
                               final PropertyFilter filter, SerializerFeature... features) throws IOException {
         setJSONHeader(req, resp);
+        if (lg.isDebugEnabled()) {
+            lg.debug("JSONView: " + JSON.toJSONString(obj));
+        }
 
         PrintWriter writer = resp.getWriter();
         SerializeWriter sw = new SerializeWriter(writer);
         JSONSerializer serializer = new JSONSerializer(sw);
+
         if(filter != null){
             serializer.getPropertyFilters().add(filter);
         }
@@ -34,9 +38,8 @@ public class JSONView {
             serializer.config(feature, true);
         }
         serializer.write(obj);
-        if (lg.isDebugEnabled()) {
-            lg.debug("JSONView: " + JSON.toJSONString(obj));
-        }
+
+        sw.close();
         writer.close();
     }
 
