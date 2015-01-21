@@ -39,7 +39,9 @@ public class TestFileUtils {
     }
 
     public static void tReadStringNIO(String filePath) {
-        System.out.println(FileUtils.readFileToStringNIO(filePath));
+        @SuppressWarnings("deprecation")
+        String str = FileUtils.readFileToStringNIO(filePath);
+        System.out.println(str);
     }
 
 }

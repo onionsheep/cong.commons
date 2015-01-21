@@ -20,31 +20,49 @@ public class JSONView {
 
     private static final Logger lg = LoggerFactory.getLogger(JSONView.class);
 
-    public static void render(final HttpServletRequest req, final HttpServletResponse resp, final Object obj)
-            throws IOException {
+    public static void render(final HttpServletRequest req, final HttpServletResponse resp, final Object obj,
+                              final PropertyFilter filter, SerializerFeature... features) throws IOException {
+        setJSONHeader(req, resp);
+
+        PrintWriter writer = resp.getWriter();
+        SerializeWriter sw = new SerializeWriter(writer);
+        JSONSerializer serializer = new JSONSerializer(sw);
+        if(filter != null){
+            serializer.getPropertyFilters().add(filter);
+        }
+        for (SerializerFeature feature : features) {
+            serializer.config(feature, true);
+        }
+        serializer.write(obj);
         if (lg.isDebugEnabled()) {
             lg.debug("JSONView: " + JSON.toJSONString(obj));
         }
-        JSON.writeJSONStringTo(obj, resp.getWriter(), SerializerFeature.WriteDateUseDateFormat,
-                SerializerFeature.PrettyFormat, SerializerFeature.BrowserCompatible,
-                SerializerFeature.WriteNullStringAsEmpty);
-        resp.getWriter().close();
-
+        writer.close();
     }
 
-    public static void render(final HttpServletRequest req, final HttpServletResponse resp, final Object obj,
-                              final PropertyFilter filter) throws IOException {
-        SerializeWriter sw = new SerializeWriter();
-        JSONSerializer serializer = new JSONSerializer(sw);
-        serializer.getPropertyFilters().add(filter);
-        serializer.write(obj);
-        String jSONString = sw.toString();
-        PrintWriter writer = resp.getWriter();
-        writer.append(jSONString);
-        writer.close();
-        if (lg.isDebugEnabled()) {
-            lg.debug("JSONView: " + jSONString);
+    private static void setJSONHeader(HttpServletRequest req, HttpServletResponse resp) {
+        final String userAgent = req.getHeader("User-Agent");
+        final int msieIndex = userAgent.indexOf("MSIE");
+        boolean supportApplicationJSON = true;
+        if(msieIndex >= 0){
+            final char c = userAgent.charAt(msieIndex + 5);
+            if(c <= '9' && c >= '5'){
+                //根据UserAgent判断浏览器为IE5-IE9，不支持 application/json
+                supportApplicationJSON = false;
+            }
         }
+        if(supportApplicationJSON) {
+            resp.setHeader("Content-Type", "application/json;charset=UTF-8");
+        }else{
+            resp.setHeader("Content-Type", "text/plain;charset=UTF-8");
+        }
+    }
+
+    public static void render(final HttpServletRequest req, final HttpServletResponse resp, final Object obj)
+            throws IOException {
+        render(req, resp, obj, null, SerializerFeature.WriteDateUseDateFormat,
+                SerializerFeature.PrettyFormat, SerializerFeature.BrowserCompatible,
+                SerializerFeature.WriteNullStringAsEmpty);
     }
 
     public static void renderIgnoreFields(final HttpServletRequest req, final HttpServletResponse resp, final Object obj,
