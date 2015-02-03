@@ -14,6 +14,7 @@ import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -141,14 +142,14 @@ public class BaseDao {
         sqlsb.append(" update ");
         sqlsb.append(sqlCache.getTableName());
         sqlsb.append(" set ");
-        sqlCache.getFieldColumnMap();
+        final ConcurrentHashMap<String, String> fieldColumnMap = sqlCache.getFieldColumnMap();
         String idColumnName = sqlCache.getIdColumnName();
         for (Field f : notNullFieldList) {
             String name = f.getName();
             if (idColumnName.equals(name)) {
                 continue;
             }
-            sqlsb.append(name);
+            sqlsb.append(fieldColumnMap.get(name));
             sqlsb.append(" = ?, ");
         }
         sqlsb.deleteCharAt(sqlsb.lastIndexOf(","));

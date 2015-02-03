@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import jodd.bean.BeanUtil;
 import jodd.datetime.JDateTime;
+import jodd.typeconverter.TypeConversionException;
 import jodd.typeconverter.TypeConverterManager;
 import jodd.util.StringUtil;
 import org.slf4j.Logger;
@@ -112,7 +113,13 @@ public class WebUtil {
             jDateTime.parse(paramString, "YYYY-MM-DDThh:mm");
             t = clazz.cast(jDateTime.convertToDate());
         } else {
-            t = TypeConverterManager.convertType(paramString, clazz);
+            try{
+                t = TypeConverterManager.convertType(paramString, clazz);
+            }catch(TypeConversionException e){
+                e.printStackTrace();
+                //格式转换异常，捕获，返回null
+            }
+
         }
         return t;
     }

@@ -64,7 +64,7 @@ public class JSONView {
     public static void render(final HttpServletRequest req, final HttpServletResponse resp, final Object obj)
             throws IOException {
         render(req, resp, obj, null, SerializerFeature.WriteDateUseDateFormat,
-                SerializerFeature.PrettyFormat, SerializerFeature.BrowserCompatible,
+                SerializerFeature.PrettyFormat, //SerializerFeature.BrowserCompatible,
                 SerializerFeature.WriteNullStringAsEmpty);
     }
 
