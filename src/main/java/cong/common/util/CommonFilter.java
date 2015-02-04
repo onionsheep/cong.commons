@@ -64,7 +64,12 @@ public class CommonFilter implements Filter {
         if (log.isDebugEnabled()) {
             final String remoteHost = request.getRemoteHost();
             final StringBuffer requestURL = req.getRequestURL();
-            log.debug("{} <= {}", remoteHost, requestURL);
+            final String xRealIP = req.getHeader("X-Real-IP");
+            if(StringUtil.isNotBlank(xRealIP)){
+                log.debug("{} <= {} <= {}",xRealIP, remoteHost, requestURL);
+            }else{
+                log.debug("{} <= {}", remoteHost, requestURL);
+            }
             int paramSize = parameterMap.entrySet().size();
             if (paramSize > 0) {
                 StringBuffer sb = new StringBuffer();
