@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -73,9 +74,15 @@ public class SQLCache {
             final Field[] declaredFields = this.clazz.getDeclaredFields();
             final ArrayList<Field> fieldArrayList = new ArrayList<Field>();
             for (Field field : declaredFields) {
+                if(field == null){
+                    continue;//忽略null
+                }
                 final Annotation notInDBAnnotation = field.getAnnotation(NotInDB.class);
                 if (notInDBAnnotation != null) {
-                    continue;
+                    continue;//忽略声明的非数据库字段
+                }
+                if(Modifier.isStatic(field.getModifiers())){
+                    continue;//忽略static字段
                 }
                 fieldArrayList.add(field);
             }
