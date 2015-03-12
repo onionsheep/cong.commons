@@ -3,6 +3,9 @@ driver=com.mysql.jdbc.Driver
 url=jdbc\:mysql\://192.168.11.102\:3306/yuyanzhexue?useUnicode=true&characterEncoding=UTF8
 username=root
 password=newpassword
+maxActive=32
+initialSize=1
+minIdle=1
 [adm]
 prefix=/adm
 mainPage=/adm

@@ -3,13 +3,14 @@
  */
 package cong.common.util;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import cong.common.dao.SQLCache;
+import cong.common.util.db.DataSourceInitializer;
+import cong.common.util.db.DruidDataSourceInitializer;
 import jodd.bean.BeanUtil;
-import jodd.props.Props;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -28,22 +29,18 @@ public class DBUtil {
 
     private static ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<Connection>();
 
+    private static DataSourceInitializer dataSourceInitializer = new DruidDataSourceInitializer();
+
 
     //暂时把数据源的初始化写在这里，后面要用配置文件进行加载
-    private static DruidDataSource dds = null;
+    private static DataSource dds = null;
 
     static {
         dds = reInitDds();
     }
 
-    public static DruidDataSource reInitDds() {
-        DruidDataSource ds = new DruidDataSource();
-        final Props props = Config.load();
-        ds.setDriverClassName(props.getValue("db.driver"));
-        ds.setUrl(props.getValue("db.url"));
-        ds.setUsername(props.getValue("db.username"));
-        ds.setPassword(props.getValue("db.password"));
-        return ds;
+    public static DataSource reInitDds() {
+        return dataSourceInitializer.createDataSource();
     }
 
 
@@ -184,5 +181,13 @@ public class DBUtil {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public static DataSourceInitializer getDataSourceInitializer() {
+        return dataSourceInitializer;
+    }
+
+    public static void setDataSourceInitializer(DataSourceInitializer dataSourceInitializer) {
+        DBUtil.dataSourceInitializer = dataSourceInitializer;
     }
 }
