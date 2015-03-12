@@ -15,8 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,51 +22,12 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author cong 刘聪 onion_sheep@163.com|onionsheep@gmail.com
  */
 public class WebUtil {
-
-
-    public static final String PARAM_SESSION_NAME = "_param_storage";
-    private static final Logger LG = LoggerFactory.getLogger(WebUtil.class);
-
-    public static <T> void saveParameterInSession(final HttpServletRequest req, final String name, final T t) {
-        if (StringUtil.isNotBlank(name)) {
-            final HttpSession session = req.getSession();
-            ConcurrentHashMap<String, Object> param = (ConcurrentHashMap<String, Object>) session.getAttribute(PARAM_SESSION_NAME);
-            if (param == null) {
-                param = new ConcurrentHashMap<>();
-                session.setAttribute(PARAM_SESSION_NAME, param);
-            }
-            if (t == null) {
-                param.remove(name);
-            } else {
-                param.put(name, t);
-            }
-        }
-    }
-
-    public static void removeParameterFromSession(final HttpServletRequest req, final String name) {
-        saveParameterInSession(req, name, null);
-    }
-
-    public static void removeAllParametersInSession(final HttpServletRequest req) {
-        req.getSession().setAttribute(PARAM_SESSION_NAME, null);
-    }
-
-    public static <T> T getParameterFromSession(final HttpServletRequest req, final Class<T> clazz, final String name) {
-        T t = null;
-        final HttpSession session = req.getSession();
-        ConcurrentHashMap<String, Object> param = (ConcurrentHashMap<String, Object>) session.getAttribute(PARAM_SESSION_NAME);
-        if (param != null && StringUtil.isNotBlank(name)) {
-            t = (T) param.get(name);
-        }
-        return t;
-    }
-
+    private static final Logger LOGGER             = LoggerFactory.getLogger(WebUtil.class);
 
     /**
      * 从request中取出某种类型的参数，取出第一个不是null的参数则返回，顺序按照名称列表中给出的参数
@@ -151,10 +110,10 @@ public class WebUtil {
                 try {
                     t = clazz.newInstance();
                 } catch (InstantiationException e) {
-                    LG.error("创建对象异常");
+                    LOGGER.error("创建对象异常");
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
-                    LG.error("创建对象异常");
+                    LOGGER.error("创建对象异常");
                     e.printStackTrace();
                 }
             }
@@ -197,14 +156,14 @@ public class WebUtil {
             is.close();
             String requestString = sb.toString();
             if (StringUtil.isNotBlank(requestString)) {
-                LG.debug("Request流字符串： {}", requestString);
+                LOGGER.debug("Request流字符串： {}", requestString);
                 t = JSON.parseObject(requestString, clazz);
             }
         } catch (IOException e) {
-            LG.error("读取Request流异常");
+            LOGGER.error("读取Request流异常");
             e.printStackTrace();
         } catch (JSONException e) {
-            LG.error("JSON解析错误");
+            LOGGER.error("JSON解析错误");
             e.printStackTrace();
         }
         return t;

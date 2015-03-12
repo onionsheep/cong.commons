@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class TypedDao <T> extends BaseDao {
     private Class<T> clazz;
 
-
+    @SuppressWarnings("unchecked")
     protected TypedDao() {
         this.clazz = (Class<T>) DaoUtil.getTypeArguments(TypedDao.class, getClass()).get(0);
         if(this.clazz == null){

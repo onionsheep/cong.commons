@@ -461,7 +461,7 @@ public class BaseDao {
             resultSet = prepareStatement.executeQuery();
         } catch (SQLException e) {
             log.error("SQL异常,{}", e.getMessage());
-            log.error("{}", e.getStackTrace());
+            log.error("", e);
             e.printStackTrace();
         }
         return new Pair<Connection, ResultSet>(connection, resultSet);
@@ -519,7 +519,7 @@ public class BaseDao {
             }
         } catch (SQLException e) {
             log.error("关闭ResultSet时,SQL异常,{}", e.getMessage());
-            log.error("{}", e.getStackTrace());
+            log.error("", e);
             e.printStackTrace();
         }
 
@@ -529,7 +529,7 @@ public class BaseDao {
             }
         } catch (SQLException e) {
             log.error("关闭Connection时,SQL异常,{}", e.getMessage());
-            log.error("{}", e.getStackTrace());
+            log.error("", e);
             e.printStackTrace();
         }
 
@@ -561,7 +561,7 @@ public class BaseDao {
             }
         } catch (SQLException e) {
             log.error("发生异常 {}", e.getMessage());
-            log.error("{}",e.getStackTrace());
+            log.error("",e);
             e.printStackTrace();
         }
         return result;
@@ -596,7 +596,7 @@ public class BaseDao {
             }
         } catch (SQLException e) {
             log.error("发生异常 {}", e.getMessage());
-            log.error("{}",e.getStackTrace());
+            log.error("",e);
             e.printStackTrace();
         }
         return new Pair<>(result, key);
@@ -667,7 +667,7 @@ public class BaseDao {
             }
         } catch (SQLException e) {
             log.error("发生异常 {}", e.getMessage());
-            log.error("{}", e.getStackTrace());
+            log.error("", e);
             e.printStackTrace();
         }
         closeResultAndConnection(connectionResultSetPair.getV2(), connectionResultSetPair.getV1());
